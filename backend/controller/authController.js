@@ -1,4 +1,4 @@
-const User = require("..models/user.js");
+const User = require("../models/user.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -11,11 +11,11 @@ const generateToken = (id) => {
 };
 
 // Register Logic
-export const registerUser = async (req, res) => {
+ const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    const userExists = await User.fidnOne({ email });
+    const userExists = await User.findOne({ email });
     if (!userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
@@ -44,10 +44,10 @@ export const registerUser = async (req, res) => {
 
 // Login Logic
 
-export const loginUser=async(req,res)=>{
+ const loginUser=async(req,res)=>{
     try{
         const{email,password}=req.body
-        const user =await User.fidnOne({email})
+        const user =await User.findOne({email})
 
 
         if(user && (await bcrypt.compare(password,user.password))){
@@ -66,3 +66,5 @@ export const loginUser=async(req,res)=>{
         res.status(500).json({message:error.message})
     }
 }
+
+module.exports={registerUser,loginUser}

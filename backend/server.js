@@ -1,5 +1,6 @@
 const connectDB=require('./config/db.js')
 const authRoutes=require('./routes/authRoutes.js')
+const userRoutes=require('./routes/userRoutes.js')
 
 const express=require('express')
 const mongoose=require('mongoose')
@@ -13,6 +14,7 @@ connectDB()
 app.use(cors())
 app.use(express.json())
 app.use("/api/auth",authRoutes)
+app.use("/api/users", userRoutes);
 
 app.get('/',(req,res)=>{
     res.send("Dev_Sync API is running......")

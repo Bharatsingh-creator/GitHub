@@ -1,12 +1,15 @@
-import React from 'react'
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
-const App = () => {
+function App() {
   return (
-    <div className='text-emerald-600'>
-      hi there
-    </div>
-  )
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
 

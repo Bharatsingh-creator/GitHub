@@ -3,8 +3,40 @@ import logo from "../assets/icons8-github-copilot-94.png";
 import photo from "../assets/Hand coding.gif";
 import apple from "../assets/icons8-apple-logo-50.png";
 import google from "../assets/icons8-google-logo-48.png";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 
-const login = () => {
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = localStorage.getItem("userInfo");
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, []);
+
+  const handlesubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        { email, password },
+      );
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      navigate("/dashboard");
+    } catch (error) {
+      alert(error.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="flex flex-col md:flex-row h-screen w-full font-poppins">
       {/* LEFT SECTION (GIF)
@@ -49,6 +81,8 @@ const login = () => {
             <input
               type="email"
               placeholder="name@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full border border-gray-200 outline-0 p-3 md:p-4 rounded-md focus:border-[#308cc5] transition-all"
             />
           </div>
@@ -60,6 +94,8 @@ const login = () => {
             <input
               type="password"
               placeholder="********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full border border-gray-200 outline-0 p-3 md:p-4 rounded-md focus:border-[#308cc5] transition-all"
             />
           </div>
@@ -86,8 +122,12 @@ const login = () => {
             </button>
           </div>
 
-          <button className="w-full bg-[#0015ff] text-white font-bold py-3 md:py-4 rounded-md mt-4 hover:brightness-110 transition-all">
-            Sign In
+          <button
+            disabled={loading}
+            onClick={handlesubmit}
+            className="w-full bg-[#0015ff] text-white font-bold py-3 md:py-4 rounded-md mt-4 hover:brightness-110 transition-all"
+          >
+            {loading ? "Logging in..." : "Sign In"}
           </button>
         </div>
         <div className="flex items-center gap-4 my-6 w-full max-w-sm">
@@ -100,21 +140,13 @@ const login = () => {
         <div className="flex flex-col gap-3 w-full max-w-sm">
           {/* Google Button */}
           <button className="w-full flex items-center justify-center gap-3 border border-gray-300 py-3 rounded-xl hover:bg-gray-50 transition-all font-semibold">
-            <img
-              src={google}
-              alt="google"
-              className="w-5 h-5"
-            />
+            <img src={google} alt="google" className="w-5 h-5" />
             Google
           </button>
 
           {/* Facebook Button */}
           <button className="w-full flex items-center justify-center gap-3 border border-gray-300 py-3 rounded-xl hover:bg-gray-50 transition-all font-semibold">
-            <img
-              src={apple}
-              alt="apple"
-              className="w-5 h-5"
-            />
+            <img src={apple} alt="apple" className="w-5 h-5" />
             Apple
           </button>
         </div>
@@ -123,4 +155,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;

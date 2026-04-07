@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Login from "./pages/login";
+import Register from "./pages/register";
+import React from "react";
 
 function App() {
   return (
@@ -12,4 +13,3 @@ function App() {
 }
 
 export default App;
-

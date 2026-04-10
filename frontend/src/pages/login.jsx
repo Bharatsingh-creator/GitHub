@@ -14,12 +14,12 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const user = localStorage.getItem("userInfo");
-    if (user) {
-      navigate("/dashboard");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const user = localStorage.getItem("userInfo");
+  //   if (user) {
+  //     navigate("/dashboard");
+  //   }
+  // }, []);
 
   const handlesubmit = async (e) => {
     e.preventDefault();
@@ -40,8 +40,7 @@ const Login = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen w-full font-poppins">
       {/* LEFT SECTION (GIF)
-          - h-full: Takes full height.
-          - sticky top-0: Keeps it fixed in place on desktop during scroll.
+        
       */}
       <div className="hidden md:flex md:w-1/2 h-screen items-center justify-center p-10  sticky top-0">
         <img
@@ -52,8 +51,7 @@ const Login = () => {
       </div>
 
       {/* RIGHT SECTION (FORM)
-          - flex-1: Takes up the remaining width.
-          - overflow-y-auto: Allows this side ONLY to scroll when rotated or on small screens.
+    
       */}
       <div className="flex-1 flex flex-col items-center py-10 px-4 overflow-y-auto">
         {/* Your Logo */}
@@ -144,11 +142,7 @@ const Login = () => {
             Google
           </button>
 
-          {/* Facebook Button */}
-          <button className="w-full flex items-center justify-center gap-3 border border-gray-300 py-3 rounded-xl hover:bg-gray-50 transition-all font-semibold">
-            <img src={apple} alt="apple" className="w-5 h-5" />
-            Apple
-          </button>
+
         </div>
       </div>
     </div>

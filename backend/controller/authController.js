@@ -1,7 +1,7 @@
 const User = require("../models/user.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const sendEmail =require("../utils/sendEmail.js")
 // Token Generation
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -38,6 +38,12 @@ const registerUser = async (req, res) => {
       email: trimmedEmail,
       password: hashedPassword,
     });
+
+     await sendEmail(
+      user.email,
+      "Welcome to DevSync 🚀",
+      `Hello ${user.name}, your account has been created successfully!`
+    );
 
     res.status(201).json({
       _id: user.id,

@@ -60,7 +60,7 @@ const Login = () => {
       {/* RIGHT SECTION (FORM)
     
       */}
-      <div className="flex-1 flex flex-col items-center py-8 px-4 overflow-y-auto">
+      <div className="flex-1 flex flex-col items-center  px-4 overflow-y-auto">
         {/* Your Logo */}
         <img src={logo} alt="logo" className="w-16 md:w-24 h-auto" />
 
@@ -121,7 +121,7 @@ const Login = () => {
               Confirm Password
             </h5>
             <input
-              type="email"
+              type="password"
               placeholder="********"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}

@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -71,7 +72,7 @@ const Login = () => {
         </h5>
 
         {/* Form Inputs (Grouped for easier management) */}
-        <div className="w-full max-w-sm flex flex-col gap-4">
+        <div className="w-full max-w-sm flex flex-col gap-2">
           <div className="flex flex-col gap-2">
             <h5 className="font-semibold text-gray-700 text-sm md:text-base">
               Email Address
@@ -114,7 +115,7 @@ const Login = () => {
             </div>
             <button
               type="button"
-              className="text-sm font-semibold text-[#C1121F] hover:underline"
+              className="text-sm font-semibold text-[#C1121F] hover:underline hover:cursor-pointer"
             >
               Forgot password?
             </button>
@@ -123,7 +124,7 @@ const Login = () => {
           <button
             disabled={loading}
             onClick={handlesubmit}
-            className="w-full bg-[#0015ff] text-white font-bold py-3 md:py-4 rounded-md mt-4 hover:brightness-110 transition-all"
+            className="w-full bg-[#0015ff] text-white font-bold py-3 md:py-4 rounded-md mt-4 hover:brightness-110 transition-all hover:cursor-pointer"
           >
             {loading ? "Logging in..." : "Sign In"}
           </button>
@@ -135,13 +136,18 @@ const Login = () => {
           </span>
           <div className="h-[1px] flex-1 bg-gray-200"></div>
         </div>
-        <div className="flex flex-col gap-3 w-full max-w-sm">
+        <div className="flex flex-col  w-full max-w-sm">
           {/* Google Button */}
           <button className="w-full flex items-center justify-center gap-3 border border-gray-300 py-3 rounded-xl hover:bg-gray-50 transition-all font-semibold">
             <img src={google} alt="google" className="w-5 h-5" />
             Google
           </button>
-
+           <p className="text-center text-sm text-gray-600 mt-4">
+          Don't have an account?
+          <Link to="/register" className="text-[#ff0000] font-bold hover:underline">
+            Register
+          </Link>
+        </p>
 
         </div>
       </div>

@@ -1,6 +1,7 @@
 const connectDB=require('./config/db.js')
 const authRoutes=require('./routes/authRoutes.js')
 const userRoutes=require('./routes/userRoutes.js')
+const dns =require('node:dns/promises').setServers(['8.8.8.8', '8.8.4.4'])
 
 const express=require('express')
 const mongoose=require('mongoose')

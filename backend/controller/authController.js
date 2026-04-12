@@ -1,7 +1,7 @@
 const User = require("../models/user.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const sendEmail =require("../utils/sendEmail.js")
+const sendEmail = require("../utils/sendEmail.js");
 // Token Generation
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -39,10 +39,10 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
-     await sendEmail(
+    await sendEmail(
       user.email,
       "Welcome to DevSync 🚀",
-      `Hello ${user.name}, your account has been created successfully!`
+      `Hello ${user.name}, your account has been created successfully!`,
     );
 
     res.status(201).json({
@@ -64,6 +64,26 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
+      const loginTime = new Date().toLocaleString();
+      const ip = req.ip;
+      const device = req.headers["user-agent"];
+
+      // ✅ Send login alert email
+      await sendEmail(
+        user.email,
+        "New Login Alert 🚨",
+        `Hello ${user.name},
+
+We detected a new login to your DevSync account.
+
+Time: ${loginTime}
+IP Address: ${ip}
+Device: ${device}
+
+If this wasn't you, please secure your account immediately.
+`,
+      );
+
       res.json({
         _id: user.id,
         name: user.name,
@@ -71,7 +91,7 @@ const loginUser = async (req, res) => {
         token: generateToken(user._id),
       });
     } else {
-      res.status(401).json({ messaage: "Invalid email or password" });
+      res.status(401).json({ message: "Invalid email or password" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });

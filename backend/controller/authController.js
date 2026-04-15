@@ -39,10 +39,28 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
+    const registerHTML = `
+<div style="font-family: Arial; padding: 20px;">
+  <h2 style="color: #4CAF50;">Welcome to DevSync 🚀</h2>
+  <p>Hello <b>${user.name}</b>,</p>
+  <p>Your account has been successfully created.</p>
+
+  <p><b>📅 Time:</b> ${new Date().toLocaleString()}</p>
+
+  <p style="margin-top:20px;">
+    We're excited to have you onboard 🎉
+  </p>
+
+  <hr/>
+  <p style="font-size:12px;color:gray;">DevSync Team</p>
+</div>
+`;
+
     await sendEmail(
       user.email,
       "Welcome to DevSync 🚀",
-      `Hello ${user.name}, your account has been created successfully!`,
+      "",
+      registerHTML
     );
 
     res.status(201).json({
@@ -51,8 +69,7 @@ const registerUser = async (req, res) => {
       email: user.email,
       token: generateToken(user._id),
     });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  } catch (error) {res.status(500).json({ message: error.message });
   }
 };
 
@@ -81,22 +98,36 @@ const loginUser = async (req, res) => {
       const loginTime = new Date().toLocaleString();
       const device = req.headers["user-agent"];
 
+const loginHTML = `
+<div style="font-family: Arial; padding: 20px;">
+  <h2 style="color: #ff4d4f;">New Login Alert 🚨</h2>
+  
+  <p>Hello <b>${user.name}</b>,</p>
+
+  <p>We detected a new login to your DevSync account.</p>
+
+  <p><b>📅 Time:</b> ${new Date().toLocaleString()}</p>
+  <p><b>🌐 IP Address:</b> ${ip}</p>
+  <p><b>🌍 Location:</b> ${location}</p>
+  <p><b>💻 Device:</b> ${req.headers["user-agent"]}</p>
+
+  <div style="margin-top:20px; padding:10px; background:#fff3f3; border-left:4px solid red;">
+    If this wasn't you, please secure your account immediately.
+  </div>
+
+  <hr/>
+  <p style="font-size:12px;color:gray;">DevSync Security Team</p>
+</div>
+`;
+
+
       // ✅ Send email safely
       try {
         await sendEmail(
           user.email,
           "New Login Alert 🚨",
-          `Hello ${user.name},
-
-We detected a new login to your DevSync account.
-
-Time: ${loginTime}
-IP Address: ${ip}
-Location: ${location}
-Device: ${device}
-
-If this wasn't you, please secure your account immediately.
-`,
+          "",
+          loginHTML
         );
       } catch (emailError) {
         console.log("Email failed:", emailError.message);

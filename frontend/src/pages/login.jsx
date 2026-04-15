@@ -138,9 +138,10 @@ const Login = () => {
         </div>
         <div className="flex flex-col  w-full max-w-sm">
           {/* Google Button */}
-          <button className="w-full flex items-center justify-center gap-3 border border-gray-300 py-3 rounded-xl hover:bg-gray-50 transition-all font-semibold">
+          <button onClick={() =>
+    (window.location.href = "http://localhost:5000/api/auth/google")} className="w-full flex items-center justify-center gap-3 border border-gray-300 py-3 rounded-xl hover:bg-gray-50 transition-all font-semibold hover:cursor-pointer">
             <img src={google} alt="google" className="w-5 h-5" />
-            Google
+           Google
           </button>
            <p className="text-center text-sm text-gray-600 mt-4">
           Don't have an account?

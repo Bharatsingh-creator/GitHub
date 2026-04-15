@@ -1,26 +1,39 @@
-const connectDB=require('./config/db.js')
-const authRoutes=require('./routes/authRoutes.js')
-const userRoutes=require('./routes/userRoutes.js')
-const dns =require('node:dns/promises').setServers(['8.8.8.8', '8.8.4.4'])
+require("dotenv").config();
 
-const express=require('express')
-const mongoose=require('mongoose')
-const cors=require('cors')
-require('dotenv').config()
+const connectDB = require("./config/db.js");
+const authRoutes = require("./routes/authRoutes.js");
+const userRoutes = require("./routes/userRoutes.js");
+const dns = require("node:dns/promises").setServers(["8.8.8.8", "8.8.4.4"]);
+const passport = require("./config/passport.js");
+const session = require("express-session");
 
-const app=express()
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
 
-connectDB()
 
-app.use(cors())
-app.use(express.json())
-app.use("/api/auth",authRoutes)
+const app = express();
+
+connectDB();
+
+app.use(cors());
+app.use(express.json());
+app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use(
+  session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: true,
+  }),
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.get('/',(req,res)=>{
-    res.send("Dev_Sync API is running......")
-})
+app.get("/", (req, res) => {
+  res.send("Dev_Sync API is running......");
+});
 
-app.listen(5000,()=>{
-    console.log("Server is running on 5000 port")
-})
+app.listen(5000, () => {
+  console.log("Server is running on 5000 port");
+});

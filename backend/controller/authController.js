@@ -59,30 +59,48 @@ const registerUser = async (req, res) => {
 // Login Logic
 
 const loginUser = async (req, res) => {
+  const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+  let location = "Unknown";
+
+  try {
+    const response = await axios.get(
+      `http://ip-api.com/json/${ip}?fields=status,city,country`,
+    );
+    if (response.data.status === "success") {
+      location = `${response.data.city}, ${response.data.country}`;
+    }
+  } catch (err) {
+    console.log("Location fetch failed");
+  }
+
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const loginTime = new Date().toLocaleString();
-      const ip = req.ip;
       const device = req.headers["user-agent"];
 
-      // ✅ Send login alert email
-      await sendEmail(
-        user.email,
-        "New Login Alert 🚨",
-        `Hello ${user.name},
+      // ✅ Send email safely
+      try {
+        await sendEmail(
+          user.email,
+          "New Login Alert 🚨",
+          `Hello ${user.name},
 
 We detected a new login to your DevSync account.
 
 Time: ${loginTime}
 IP Address: ${ip}
+Location: ${location}
 Device: ${device}
 
 If this wasn't you, please secure your account immediately.
 `,
-      );
+        );
+      } catch (emailError) {
+        console.log("Email failed:", emailError.message);
+      }
 
       res.json({
         _id: user.id,

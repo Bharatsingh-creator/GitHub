@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+body{
+  background:black;
+}
+
 @theme {
   --font-poppins: "Poppins", ui-sans-serif, system-ui;
 }

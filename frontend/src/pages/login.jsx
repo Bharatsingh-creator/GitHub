@@ -15,12 +15,12 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const user = localStorage.getItem("userInfo");
-  //   if (user) {
-  //     navigate("/dashboard");
-  //   }
-  // }, []);
+  useEffect(() => {
+    const user = localStorage.getItem("userInfo");
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   const handlesubmit = async (e) => {
     e.preventDefault();

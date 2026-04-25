@@ -5,7 +5,7 @@ import logout from '../assets/user-logout.png'
 
 const navbar = ({ onMenuClick }) => {
   return (
-<div className='border-b p-3 border-gray-800 flex items-center justify-between gap-4 font-poppins '>
+<div className='border-b p-3 border-gray-800 flex items-center justify-between gap-4 font-poppins bg-black '>
   
   
   <div className="shrink-0" onClick={onMenuClick}>
@@ -21,12 +21,12 @@ const navbar = ({ onMenuClick }) => {
     <input 
       type="text" 
       placeholder='Search anything...' 
-      className='w-full border border-gray-200 outline-0 rounded-xl bg-gray-50 p-2 px-4 focus:bg-white focus:ring-2 focus:ring-purple-600 transition-all text-sm' 
+      className='w-full border  border-gray-200 outline-0 rounded-xl bg-gray-50 p-2 px-4 focus:bg-white focus:ring-2 focus:ring-purple-600 transition-all text-sm' 
     />
   </div>
 
  
-  <div className='flex items-center gap-3 md:gap-6 shrink-0'>
+  <div className='flex items-center gap-3 md:gap-6 shrink-0 '>
     <button className="relative p-1 rounded-full transition-colors">
       <img src={bell} alt="notification" className='invert w-5 md:w-6 h-auto' />
     

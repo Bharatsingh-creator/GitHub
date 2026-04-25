@@ -15,12 +15,12 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const user = localStorage.getItem("userInfo");
-    if (user) {
-      navigate("/dashboard");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const user = localStorage.getItem("userInfo");
+  //   if (user) {
+  //     navigate("/dashboard");
+  //   }
+  // }, []);
 
   const handlesubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +30,7 @@ const Login = () => {
         "http://localhost:5000/api/auth/login",
         { email, password },
       );
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      localStorage.setItem("user", JSON.stringify(data));
       navigate("/dashboard");
     } catch (error) {
       alert(error.response?.data?.message || "Login failed");

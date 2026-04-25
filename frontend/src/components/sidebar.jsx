@@ -13,7 +13,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     
       <aside className={`fixed top-0 left-0  h-screen w-64 bg-black border-r border-gray-800 text-white z-50 transform transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         
-        <div className="p-2 flex justify-between items-center  border-gray-800">
+        <div className="p-2 flex justify-between items-center  ">
          <h1 className="text-xl md:text-lg lg:text-2xl font-extrabold text-center mt-2">
           <span className="text-[#64748B]"> &lt;</span>
           <span className="text-[#308cc5]">Dev</span>

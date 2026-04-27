@@ -31,6 +31,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <a href="#" className="block p-3 rounded-lg hover:bg-purple-600 transition-colors">Chat</a>
           <a href="#" className="block p-3 rounded-lg hover:bg-purple-600 transition-colors">Tasks</a>
           <a href="#" className="block p-3 rounded-lg hover:bg-purple-600 transition-colors">Notes</a>
+          <a href="#" className="block p-3 rounded-lg hover:bg-purple-600 transition-colors">Friends</a>
         </nav>
       </aside>
     </>

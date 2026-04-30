@@ -1,5 +1,7 @@
 import React from 'react';
 import { X } from 'lucide-react'; 
+import { Link } from "react-router-dom";
+
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
@@ -27,11 +29,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </div>
 
         <nav className="p-4 space-y-2 font-poppins">
-          <a href="#" className="block p-3 rounded-lg hover:bg-purple-600 transition-colors">Dashboard</a>
-          <a href="#" className="block p-3 rounded-lg hover:bg-purple-600 transition-colors">Chat</a>
-          <a href="#" className="block p-3 rounded-lg hover:bg-purple-600 transition-colors">Tasks</a>
-          <a href="#" className="block p-3 rounded-lg hover:bg-purple-600 transition-colors">Notes</a>
-          <a href="#" className="block p-3 rounded-lg hover:bg-purple-600 transition-colors">Friends</a>
+          <Link to="/dashboard" className="block p-3 rounded-lg hover:bg-purple-600 transition-colors">Dashboard</Link>
+          <Link to="/chats" className="block p-3 rounded-lg hover:bg-purple-600 transition-colors">Chat</Link>
+          <Link to="/task"className="block p-3 rounded-lg hover:bg-purple-600 transition-colors">Tasks</Link>
+          <Link to="/notes" className="block p-3 rounded-lg hover:bg-purple-600 transition-colors">Notes</Link>
+          <Link to="/friends" className="block p-3 rounded-lg hover:bg-purple-600 transition-colors">Friends</Link>
         </nav>
       </aside>
     </>

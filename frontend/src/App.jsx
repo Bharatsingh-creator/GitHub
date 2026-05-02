@@ -6,6 +6,7 @@ import Friends from "./pages/friends";
 import Chat from "./pages/chats";
 import Tasks from "./pages/task";
 import Notes from "./pages/notes";
+import OAuthSuccess from "./pages/oath-success";
 import React from "react";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/chats" element={<Chat />} />
         <Route path="/task" element={<Tasks />} />
         <Route path="/notes" element={<Notes />} />
+        <Route path="/oauth-success" element={<OAuthSuccess />} />
     </Routes>
   );
 }

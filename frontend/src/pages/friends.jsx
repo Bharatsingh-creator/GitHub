@@ -9,6 +9,7 @@ const Chats = () => {
   const [email, setEmail] = useState("");
   const [friends, setFriends] = useState([]);
   const [requests, setRequests] = useState([]);
+  const [removingFriendId, setRemovingFriendId] = useState(null);
 
   const token =
     JSON.parse(localStorage.getItem("user"))?.token ||
@@ -114,6 +115,35 @@ const Chats = () => {
     }
   };
 
+  const handleRemoveFriend = async (friendId) => {
+    if (!token) {
+      alert("Please log in again");
+      return;
+    }
+
+    const shouldRemove = window.confirm(
+      "Are you sure you want to remove this friend?"
+    );
+
+    if (!shouldRemove) return;
+
+    try {
+      setRemovingFriendId(friendId);
+
+      await axios.delete(`http://localhost:5000/api/friends/remove/${friendId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setFriends((prev) => prev.filter((f) => f._id !== friendId));
+    } catch (error) {
+      alert(error.response?.data?.message || "Could not remove friend");
+    } finally {
+      setRemovingFriendId(null);
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-black w-full overflow-x-hidden">
       {/* Sidebar */}
@@ -165,6 +195,14 @@ const Chats = () => {
                         <p className="font-semibold">{f.name}</p>
                         <p className="text-sm text-gray-400">{f.email}</p>
                       </div>
+
+                      <button
+                        onClick={() => handleRemoveFriend(f._id)}
+                        disabled={removingFriendId === f._id}
+                        className="bg-red-600 px-3 py-1 rounded hover:bg-red-700 hover:cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                      >
+                        {removingFriendId === f._id ? "Removing..." : "Remove"}
+                      </button>
                     </div>
                   ))
                 )}

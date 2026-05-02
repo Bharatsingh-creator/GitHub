@@ -1,5 +1,6 @@
 const FriendRequest =require("../models/FriendRequest.js");
 const User=require("../models/user.js") ;
+const mongoose = require("mongoose");
 
 
 const getFriendRequests = async (req, res) => {
@@ -134,4 +135,56 @@ const getFriendsList = async (req, res) => {
   }
 };
 
-module.exports={sendFriendRequest,getFriendRequests,acceptFriendRequest,rejectFriendRequest,getFriendsList}
+const removeFriend = async (req, res) => {
+  try {
+    const userId = req.user._id.toString();
+    const { friendId } = req.params;
+
+    if (!friendId) {
+      return res.status(400).json({ message: "Friend id is required" });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(friendId)) {
+      return res.status(400).json({ message: "Invalid friend id" });
+    }
+
+    if (userId === friendId) {
+      return res.status(400).json({ message: "You cannot remove yourself" });
+    }
+
+    const [user, friend] = await Promise.all([
+      User.findById(userId).select("friends"),
+      User.findById(friendId).select("_id"),
+    ]);
+
+    if (!user || !friend) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isFriend = user.friends.some(
+      (friendObjectId) => friendObjectId.toString() === friendId
+    );
+
+    if (!isFriend) {
+      return res.status(404).json({ message: "Friend not found in list" });
+    }
+
+    await Promise.all([
+      User.findByIdAndUpdate(userId, { $pull: { friends: friendId } }),
+      User.findByIdAndUpdate(friendId, { $pull: { friends: userId } }),
+      FriendRequest.deleteMany({
+        status: "accepted",
+        $or: [
+          { sender: userId, receiver: friendId },
+          { sender: friendId, receiver: userId },
+        ],
+      }),
+    ]);
+
+    res.status(200).json({ message: "Friend removed successfully", friendId });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports={sendFriendRequest,getFriendRequests,acceptFriendRequest,rejectFriendRequest,getFriendsList,removeFriend}

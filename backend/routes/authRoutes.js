@@ -5,7 +5,10 @@ const passport = require("../config/passport.js");
 
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] }),
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    prompt: "select_account",
+  }),
 );
 
 // Step 2: Callback
